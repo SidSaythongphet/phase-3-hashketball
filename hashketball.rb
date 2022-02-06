@@ -126,4 +126,96 @@ def game_hash
   }
 end
 
-# Write code here
+def players
+  game_hash[:home][:players] + game_hash[:away][:players]
+end
+
+def home_teams 
+  game_hash[:home] 
+end
+
+def away_teams 
+  game_hash[:away] 
+end
+
+def max_shoe
+  players.map { |player| player[:shoe] }.max
+end
+
+def max_points
+  players.map { |player| player[:points] }.max
+end
+
+def longest_name
+  players.map { |player| player[:player_name].length }.max
+end
+
+def max_steals
+  players.map { |player| player[:steals] }.max
+end
+
+
+
+def num_points_scored name
+  target_player = players.find { |player| player[:player_name] == name }
+  target_player[:points]
+end
+
+def shoe_size name
+  target_player = players.find { |player| player[:player_name] == name }
+  target_player[:shoe]  
+end
+
+def team_colors team_name
+  if team_name == home_teams[:team_name] then home_teams[:colors]
+  elsif team_name == away_teams[:team_name] then away_teams[:colors]
+  else "No Team"
+  end
+end
+
+def team_names
+  team_names = []
+  team_names << home_teams[:team_name] 
+  team_names << away_teams[:team_name]
+end
+
+def player_numbers team_name
+  if team_name == home_teams[:team_name] then home_teams[:players].map { |player| player[:number] }
+  elsif team_name == away_teams[:team_name] then away_teams[:players].map { |player| player[:number] }
+  else "No Team"
+  end
+end
+
+def player_stats name
+  players.find { |player| player[:player_name] == name }
+end
+
+def big_shoe_rebounds
+  target_player = players.find { |player| player[:shoe] == max_shoe }
+  target_player[:rebounds]
+end
+
+def most_points_scored
+  target_player = players.find { |player| player[:points] == max_points }
+  target_player[:player_name]
+end
+
+def winning_team
+  home_points = home_teams[:players].map { |player| player[:points] }.sum
+  away_points = away_teams[:players].map { |player| player[:points] }.sum
+  if home_points > away_points then home_teams[:team_name]
+  else away_teams[:team_name]
+  end
+end
+
+def player_with_longest_name
+  target_player = players.find { |player| player[:player_name].length == longest_name }
+  target_player[:player_name]
+end
+
+def long_name_steals_a_ton?
+  target_player = players.find { |player| player[:player_name].length == longest_name }
+  if target_player[:steals] == max_steals then return true 
+  else return false
+  end 
+end
